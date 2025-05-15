@@ -45,7 +45,7 @@ do {
             $listPath = "$env:TEMP\vpn_patterns.txt"
             Invoke-WebRequest -Uri "https://raw.githubusercontent.com/WebUwU/pc-checkerV1/main/VPNChecker.ps1" -OutFile $checkerPath
             Invoke-WebRequest -Uri "https://raw.githubusercontent.com/WebUwU/pc-checkerV1/main/vpn_patterns.txt" -OutFile $listPath
-            if (Test-Path $checkerPath -and (Test-Path $listPath)) {
+            if ((Test-Path $checkerPath) -and (Test-Path $listPath)) {
                 Write-Host ">> Ausführen..." -ForegroundColor Cyan
                 & $checkerPath
             } else {
