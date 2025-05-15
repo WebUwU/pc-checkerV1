@@ -1,8 +1,11 @@
 
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$OutputEncoding = [System.Text.Encoding]::UTF8
+
 function Show-Menu {
     Clear-Host
     Write-Host "====== PC Checker Menü ======" -ForegroundColor Cyan
-    Write-Host "1. VolumeChecker ausführen"
+    Write-Host "1. VolumeChecker aus GitHub laden & ausführen"
     Write-Host "2. (Platzhalter)"
     Write-Host "3. (Platzhalter)"
     Write-Host "4. (Platzhalter)"
@@ -16,17 +19,19 @@ function Show-Menu {
 
 do {
     Show-Menu
-    $choice = Read-Host "`nBitte eine Option wählen (0-9)"
+    $choice = Read-Host "`nBitte eine Option wähleń (0-9)"
 
     switch ($choice) {
         "1" {
             Clear-Host
-            Write-Host ">> VolumeChecker wird gestartet..." -ForegroundColor Yellow
-            $volumeCheckerPath = "$PSScriptRoot\VolumeChecker.ps1"
-            if (Test-Path $volumeCheckerPath) {
-                & $volumeCheckerPath
+            Write-Host ">> Lade VolumeChecker.ps1 von GitHub..." -ForegroundColor Yellow
+            $tempPath = "$env:TEMP\VolumeChecker.ps1"
+            Invoke-WebRequest -Uri "https://raw.githubusercontent.com/WebUwU/pc-checkerV1/main/VolumeChecker.ps1" -OutFile $tempPath
+            if (Test-Path $tempPath) {
+                Write-Host ">> Ausführen..." -ForegroundColor Cyan
+                & $tempPath
             } else {
-                Write-Host "VolumeChecker.ps1 nicht gefunden!" -ForegroundColor Red
+                Write-Host "Fehler: VolumeChecker konnte nicht geladen werden!" -ForegroundColor Red
             }
             do {
                 $returnKey = Read-Host "`nDrücke 0, um zurück zum Menü zu kehren"
