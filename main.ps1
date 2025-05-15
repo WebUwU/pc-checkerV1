@@ -5,8 +5,8 @@ $OutputEncoding = [System.Text.Encoding]::UTF8
 function Show-Menu {
     Clear-Host
     Write-Host "====== PC Checker Menü ======" -ForegroundColor Cyan
-    Write-Host "1. VolumeChecker aus GitHub laden & ausführen"
-    Write-Host "2. (Platzhalter)"
+    Write-Host "1. VolumeChecker von GitHub laden & ausführen"
+    Write-Host "2. VPNChecker von GitHub laden & ausführen"
     Write-Host "3. (Platzhalter)"
     Write-Host "4. (Platzhalter)"
     Write-Host "5. (Platzhalter)"
@@ -19,7 +19,7 @@ function Show-Menu {
 
 do {
     Show-Menu
-    $choice = Read-Host "`nBitte eine Option wähleń (0-9)"
+    $choice = Read-Host "`nBitte eine Option wählen (0-9)"
 
     switch ($choice) {
         "1" {
@@ -37,9 +37,29 @@ do {
                 $returnKey = Read-Host "`nDrücke 0, um zurück zum Menü zu kehren"
             } while ($returnKey -ne "0")
         }
+
+        "2" {
+            Clear-Host
+            Write-Host ">> Lade VPNChecker.ps1 und vpn_patterns.txt von GitHub..." -ForegroundColor Yellow
+            $checkerPath = "$env:TEMP\VPNChecker.ps1"
+            $listPath = "$env:TEMP\vpn_patterns.txt"
+            Invoke-WebRequest -Uri "https://raw.githubusercontent.com/WebUwU/pc-checkerV1/main/VPNChecker.ps1" -OutFile $checkerPath
+            Invoke-WebRequest -Uri "https://raw.githubusercontent.com/WebUwU/pc-checkerV1/main/vpn_patterns.txt" -OutFile $listPath
+            if (Test-Path $checkerPath -and (Test-Path $listPath)) {
+                Write-Host ">> Ausführen..." -ForegroundColor Cyan
+                & $checkerPath
+            } else {
+                Write-Host "Fehler: VPNChecker konnte nicht geladen werden!" -ForegroundColor Red
+            }
+            do {
+                $returnKey = Read-Host "`nDrücke 0, um zurück zum Menü zu kehren"
+            } while ($returnKey -ne "0")
+        }
+
         "0" {
             Write-Host "`nProgramm wird beendet..." -ForegroundColor Green
         }
+
         default {
             Write-Host "`nUngültige Eingabe. Bitte erneut versuchen." -ForegroundColor Red
             Start-Sleep -Seconds 1.5
