@@ -6,6 +6,9 @@ browsec
 bullguard
 cyberghost
 expressvpn
+vm
+vmware
+vm-ware
 hide.me
 hide.me vpn
 hola
