@@ -1,3 +1,4 @@
+
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
 
@@ -9,6 +10,7 @@ if (!(Test-Path $vpnListPath)) {
     Write-Host "Fehler: vpn_patterns.txt nicht gefunden!" -ForegroundColor Red
     return
 }
+
 $vpnPatterns = Get-Content $vpnListPath
 $vpnFound = $false
 
