@@ -8,12 +8,6 @@ function Show-Menu {
     Write-Host "1. VolumeChecker von GitHub laden & ausführen"
     Write-Host "2. VPNChecker von GitHub laden & ausführen"
     Write-Host "3. (Platzhalter)"
-    Write-Host "4. (Platzhalter)"
-    Write-Host "5. (Platzhalter)"
-    Write-Host "6. (Platzhalter)"
-    Write-Host "7. (Platzhalter)"
-    Write-Host "8. (Platzhalter)"
-    Write-Host "9. (Platzhalter)"
     Write-Host "0. Beenden"
 }
 
@@ -25,11 +19,12 @@ do {
         "1" {
             Clear-Host
             Write-Host ">> Lade VolumeChecker.ps1 von GitHub..." -ForegroundColor Yellow
-            $tempPath = "$env:TEMP\VolumeChecker.ps1"
-            Invoke-WebRequest -Uri "https://raw.githubusercontent.com/WebUwU/pc-checkerV1/main/VolumeChecker.ps1" -OutFile $tempPath
-            if (Test-Path $tempPath) {
+            $volumeUrl = "https://raw.githubusercontent.com/WebUwU/pc-checkerV1/main/VolumeChecker.ps1"
+            $volumePath = "$env:TEMP\VolumeChecker.ps1"
+            Invoke-RestMethod -Uri $volumeUrl | Out-File -FilePath $volumePath -Encoding utf8
+            if (Test-Path $volumePath) {
                 Write-Host ">> Ausführen..." -ForegroundColor Cyan
-                & $tempPath
+                & $volumePath
             } else {
                 Write-Host "Fehler: VolumeChecker konnte nicht geladen werden!" -ForegroundColor Red
             }
@@ -38,28 +33,19 @@ do {
 
         "2" {
             Clear-Host
-            Write-Host ">> Lade VPNChecker.ps1..." -ForegroundColor Yellow
+            Write-Host ">> Lade VPNChecker.ps1 und vpn_patterns.txt von GitHub..." -ForegroundColor Yellow
+            $vpnUrl = "https://raw.githubusercontent.com/WebUwU/pc-checkerV1/main/VPNChecker.ps1"
+            $patternUrl = "https://raw.githubusercontent.com/WebUwU/pc-checkerV1/main/vpn_patterns.txt"
             $vpnPath = "$env:TEMP\VPNChecker.ps1"
-            Invoke-WebRequest -Uri "https://raw.githubusercontent.com/WebUwU/pc-checkerV1/main/VPNChecker.ps1" -OutFile $vpnPath
-
-            Write-Host ">> Lade vpn_patterns.txt..." -ForegroundColor Yellow
             $patternPath = "$env:TEMP\vpn_patterns.txt"
-            Invoke-WebRequest -Uri "https://raw.githubusercontent.com/WebUwU/pc-checkerV1/main/vpn_patterns.txt" -OutFile $patternPath
-
-            $vpnExists = Test-Path $vpnPath
-            $listExists = Test-Path $patternPath
-
-            if ($vpnExists) {
-                if ($listExists) {
-                    Write-Host ">> Starte VPNChecker..." -ForegroundColor Cyan
-                    & $vpnPath
-                } else {
-                    Write-Host "❌ Fehler: vpn_patterns.txt konnte nicht geladen werden!" -ForegroundColor Red
-                }
+            Invoke-RestMethod -Uri $vpnUrl | Out-File -FilePath $vpnPath -Encoding utf8
+            Invoke-RestMethod -Uri $patternUrl | Out-File -FilePath $patternPath -Encoding utf8
+            if ((Test-Path $vpnPath) -and (Test-Path $patternPath)) {
+                Write-Host ">> Starte VPNChecker..." -ForegroundColor Cyan
+                & $vpnPath
             } else {
-                Write-Host "❌ Fehler: VPNChecker.ps1 konnte nicht geladen werden!" -ForegroundColor Red
+                Write-Host "Fehler: Eine Datei konnte nicht geladen werden." -ForegroundColor Red
             }
-
             Read-Host "`nDrücke ENTER, um zurück zum Menü zu kehren" > $null
         }
 
