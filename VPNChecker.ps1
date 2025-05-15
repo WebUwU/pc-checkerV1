@@ -19,7 +19,7 @@ Get-NetAdapter | ForEach-Object {
     $adapterInfo = $_.Name + " " + $_.InterfaceDescription
     foreach ($pattern in $vpnPatterns) {
         if ($adapterInfo -match $pattern) {
-            Write-Host "VPN-Verdacht: $adapterInfo (Treffer: $pattern)" -ForegroundColor Magenta
+            Write-Host ("VPN-Verdacht: {0} (Treffer: {1})" -f $adapterInfo, $pattern) -ForegroundColor Magenta
             $vpnFound = $true
         }
     }
@@ -33,7 +33,7 @@ if (-not $vpnFound) {
 Write-Host "`n🌐 Ermittele öffentliche IP-Adresse..." -ForegroundColor Yellow
 try {
     $publicIP = Invoke-RestMethod -Uri "https://api.ipify.org"
-    Write-Host "🌍 Öffentliche IP-Adresse: $publicIP" -ForegroundColor Cyan
+    Write-Host ("🌍 Öffentliche IP-Adresse: {0}" -f $publicIP) -ForegroundColor Cyan
 } catch {
     Write-Host "❌ Fehler beim Abrufen der öffentlichen IP." -ForegroundColor Red
 }
