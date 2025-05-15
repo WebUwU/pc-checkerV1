@@ -46,12 +46,20 @@ do {
             $patternPath = "$env:TEMP\vpn_patterns.txt"
             Invoke-WebRequest -Uri "https://raw.githubusercontent.com/WebUwU/pc-checkerV1/main/vpn_patterns.txt" -OutFile $patternPath
 
-            if ((Test-Path $vpnPath) -and (Test-Path $patternPath)) {
-                Write-Host ">> Starte VPNChecker..." -ForegroundColor Cyan
-                & $vpnPath
+            $vpnExists = Test-Path $vpnPath
+            $listExists = Test-Path $patternPath
+
+            if ($vpnExists) {
+                if ($listExists) {
+                    Write-Host ">> Starte VPNChecker..." -ForegroundColor Cyan
+                    & $vpnPath
+                } else {
+                    Write-Host "❌ Fehler: vpn_patterns.txt konnte nicht geladen werden!" -ForegroundColor Red
+                }
             } else {
-                Write-Host "❌ Fehler beim Laden von VPNChecker oder der Pattern-Datei." -ForegroundColor Red
+                Write-Host "❌ Fehler: VPNChecker.ps1 konnte nicht geladen werden!" -ForegroundColor Red
             }
+
             Read-Host "`nDrücke ENTER, um zurück zum Menü zu kehren" > $null
         }
 
