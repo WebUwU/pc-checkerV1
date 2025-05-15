@@ -38,4 +38,4 @@ try {
     Write-Host "❌ Fehler beim Abrufen der öffentlichen IP." -ForegroundColor Red
 }
 
-Write-Host "`n===== VPN Checker abgeschlossen =====" -ForegroundColor Green
+Write-Host "`n===== VPN Checker abgeschlossen =====" 
