@@ -33,27 +33,26 @@ do {
             } else {
                 Write-Host "Fehler: VolumeChecker konnte nicht geladen werden!" -ForegroundColor Red
             }
-            do {
-                $returnKey = Read-Host "`nDrücke 0, um zurück zum Menü zu kehren"
-            } while ($returnKey -ne "0")
+            Read-Host "`nDrücke ENTER, um zurück zum Menü zu kehren" > $null
         }
 
         "2" {
             Clear-Host
-            Write-Host ">> Lade VPNChecker.ps1 und vpn_patterns.txt von GitHub..." -ForegroundColor Yellow
-            $checkerPath = "$env:TEMP\VPNChecker.ps1"
-            $listPath = "$env:TEMP\vpn_patterns.txt"
-            Invoke-WebRequest -Uri "https://raw.githubusercontent.com/WebUwU/pc-checkerV1/main/VPNChecker.ps1" -OutFile $checkerPath
-            Invoke-WebRequest -Uri "https://raw.githubusercontent.com/WebUwU/pc-checkerV1/main/vpn_patterns.txt" -OutFile $listPath
-            if ((Test-Path $checkerPath) -and (Test-Path $listPath)) {
-                Write-Host ">> Ausführen..." -ForegroundColor Cyan
-                & $checkerPath
+            Write-Host ">> Lade VPNChecker.ps1..." -ForegroundColor Yellow
+            $vpnPath = "$env:TEMP\VPNChecker.ps1"
+            Invoke-WebRequest -Uri "https://raw.githubusercontent.com/WebUwU/pc-checkerV1/main/VPNChecker.ps1" -OutFile $vpnPath
+
+            Write-Host ">> Lade vpn_patterns.txt..." -ForegroundColor Yellow
+            $patternPath = "$env:TEMP\vpn_patterns.txt"
+            Invoke-WebRequest -Uri "https://raw.githubusercontent.com/WebUwU/pc-checkerV1/main/vpn_patterns.txt" -OutFile $patternPath
+
+            if ((Test-Path $vpnPath) -and (Test-Path $patternPath)) {
+                Write-Host ">> Starte VPNChecker..." -ForegroundColor Cyan
+                & $vpnPath
             } else {
-                Write-Host "Fehler: VPNChecker konnte nicht geladen werden!" -ForegroundColor Red
+                Write-Host "❌ Fehler beim Laden von VPNChecker oder der Pattern-Datei." -ForegroundColor Red
             }
-            do {
-                $returnKey = Read-Host "`nDrücke 0, um zurück zum Menü zu kehren"
-            } while ($returnKey -ne "0")
+            Read-Host "`nDrücke ENTER, um zurück zum Menü zu kehren" > $null
         }
 
         "0" {
