@@ -1,4 +1,3 @@
-
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
 
@@ -38,4 +37,4 @@ try {
     Write-Host "❌ Fehler beim Abrufen der öffentlichen IP." -ForegroundColor Red
 }
 
-Write-Host "n===== VPN Checker abgeschlossen ====="
+Write-Host "`n===== VPN Checker abgeschlossen =====" -ForegroundColor Green
