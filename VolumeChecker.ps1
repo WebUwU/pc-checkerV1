@@ -1,4 +1,7 @@
 
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$OutputEncoding = [System.Text.Encoding]::UTF8
+
 # VolumeChecker.ps1 (with full console output)
 $ErrorActionPreference = "SilentlyContinue"
 
