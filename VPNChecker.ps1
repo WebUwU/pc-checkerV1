@@ -14,13 +14,15 @@ if (!(Test-Path $vpnListPath)) {
 $vpnPatterns = Get-Content $vpnListPath
 $vpnFound = $false
 
-# Netzwerkanalyse
+# Netzwerkanalyse mit Statusinfo
 Write-Host "`nScanne Netzwerkadapter auf bekannte VPN-Signaturen..." -ForegroundColor Yellow
 Get-NetAdapter | ForEach-Object {
     $adapterInfo = $_.Name + " " + $_.InterfaceDescription
+    $adapterStatus = $_.Status
     foreach ($pattern in $vpnPatterns) {
         if ($adapterInfo -match $pattern) {
-            Write-Host ("VPN-Verdacht: {0} (Treffer: {1})" -f $adapterInfo, $pattern) -ForegroundColor Magenta
+            $statusMessage = if ($adapterStatus -eq "Up") { "AKTIVIERT" } else { "DEAKTIVIERT" }
+            Write-Host ("VPN-Verdacht: {0} (Treffer: {1}, Status: {2})" -f $adapterInfo, $pattern, $statusMessage) -ForegroundColor Magenta
             $vpnFound = $true
         }
     }
